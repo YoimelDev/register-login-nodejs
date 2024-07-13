@@ -1,24 +1,15 @@
-import express from 'express'
+import app from './app.js'
 import { PORT } from './config.js'
+import { connectDB } from './db.js'
 
-const app = express()
+async function main () {
+  try {
+    await connectDB()
+    app.listen(PORT)
+    console.log(`Listening on port http://localhost:${PORT}`)
+  } catch (error) {
+    console.error(error)
+  }
+}
 
-app.get('/', (req, res) => {
-  res.send('Hello World')
-})
-
-app.post('/login', (req, res) => {
-  res.json({ message: 'Login successful' })
-})
-
-app.post('/register', (req, res) => {
-  res.send('Register successful')
-})
-
-app.post('/logout', (req, res) => {
-  res.send('Logout successful')
-})
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
-})
+main()
