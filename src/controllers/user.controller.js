@@ -61,7 +61,12 @@ export const updateUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10)
     const updatedUser = await User.findByIdAndUpdate(id, { email, password: hashedPassword }, { new: true })
 
-    res.json({ message: 'User updated successfully', user: updatedUser })
+    res.json({
+      data: {
+        user: updatedUser
+      },
+      status: 'success'
+    })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
